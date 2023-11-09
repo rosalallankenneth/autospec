@@ -13,10 +13,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useSession, signIn, signOut } from "next-auth/react";
+import ThemeToggleButton from '../ThemeToggleButton';
+import { ThemeToggleButtonProps } from '../ThemeToggleButton/ThemeToggleButton';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
-function Header() {
+function Header(props: ThemeToggleButtonProps) {
+  const { ColorModeContext } = props;
   const { data: session } = useSession();
   const userAvatar = session?.user?.image as string;
   const userFullName = session?.user?.name as string;
@@ -54,6 +57,7 @@ function Header() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+
           <Typography
             variant="h6"
             noWrap
@@ -83,6 +87,7 @@ function Header() {
             >
               <MenuIcon />
             </IconButton>
+
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -108,7 +113,9 @@ function Header() {
               ))}
             </Menu>
           </Box>
+
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+
           <Typography
             variant="h5"
             noWrap
@@ -127,6 +134,7 @@ function Header() {
           >
             LOGO
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -139,12 +147,16 @@ function Header() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+
+          <Box sx={{ flexGrow: 0, display: 'flex', justifyContent: 'end', alignItems: 'center', gap: 3 }}>
+            <ThemeToggleButton ColorModeContext={ColorModeContext} />
+
             <Tooltip title="Profile settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt={userFullName} src={userAvatar} />
               </IconButton>
             </Tooltip>
+
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"

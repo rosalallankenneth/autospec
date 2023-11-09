@@ -1,10 +1,11 @@
+import { FC } from 'react';
 import Head from 'next/head';
-import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 // import Login from '@/components/Login';
 import Dashboard from './dashboard';
+import scss from '../styles/Home.module.scss';
 
-export default function Home() {
+const Home: FC = () => {
   return (
     <>
       <Head>
@@ -14,8 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <main>
-        <Header />
+      <main className={scss.main}>
         <Sidebar />
         <Dashboard />
         {/* <Login /> */}
@@ -23,3 +23,5 @@ export default function Home() {
     </>
   )
 }
+
+export default Home;
