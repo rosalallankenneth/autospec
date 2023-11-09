@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
-import Login from '@/components/Login';
+// import Login from '@/components/Login';
 import Dashboard from './dashboard';
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
         <Header />
         <Sidebar />
         <Dashboard />
-        <Login />
+        {/* <Login /> */}
       </main>
     </>
   )

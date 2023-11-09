@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useSession } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
@@ -26,6 +26,7 @@ function Header() {
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -37,6 +38,16 @@ function Header() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleUserLogout = () => {
+    handleCloseUserMenu();
+    signOut();
+  }
+
+  const handleUserLogin = () => {
+    handleCloseUserMenu();
+    signIn();
+  }
 
   return (
     <AppBar position="static">
@@ -129,9 +140,9 @@ function Header() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Profile settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-               <Avatar alt={userFullName} src={userAvatar} />
+                <Avatar alt={userFullName} src={userAvatar} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -151,17 +162,17 @@ function Header() {
               onClose={handleCloseUserMenu}
             >
               {session ? (
-                <>
+                <div>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">Profile</Typography>
                   </MenuItem>
 
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem onClick={handleUserLogout}>
                       <Typography textAlign="center">Logout</Typography>
                   </MenuItem>
-                </>
+                </div>
               ) : (
-                <MenuItem onClick={handleCloseUserMenu}>
+                <MenuItem onClick={handleUserLogin}>
                   <Typography textAlign="center">Login</Typography>
                 </MenuItem>
               )}
