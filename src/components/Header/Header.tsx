@@ -16,8 +16,6 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import ThemeToggleButton from '../ThemeToggleButton';
 import { ThemeToggleButtonProps } from '../ThemeToggleButton/ThemeToggleButton';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-
 function Header(props: ThemeToggleButtonProps) {
   const { ColorModeContext } = props;
   const { data: session } = useSession();
@@ -73,7 +71,7 @@ function Header(props: ThemeToggleButtonProps) {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Autospec
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -87,31 +85,6 @@ function Header(props: ThemeToggleButtonProps) {
             >
               <MenuIcon />
             </IconButton>
-
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
 
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -132,23 +105,10 @@ function Header(props: ThemeToggleButtonProps) {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Autospec
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
-
-
-          <Box sx={{ flexGrow: 0, display: 'flex', justifyContent: 'end', alignItems: 'center', gap: 3 }}>
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'end', alignItems: 'center', gap: 3 }}>
             <ThemeToggleButton ColorModeContext={ColorModeContext} />
 
             <Tooltip title="Profile settings">

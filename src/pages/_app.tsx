@@ -34,7 +34,7 @@ const App = ({
       <ThemeProvider theme={theme}>
         <SessionProvider session={session}>
           <CssBaseline />
-          <Header ColorModeContext={ColorModeContext} />
+          {/* <Header ColorModeContext={ColorModeContext} /> */}
           <Component {...pageProps} />
         </SessionProvider>
       </ThemeProvider>

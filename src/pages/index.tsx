@@ -2,8 +2,9 @@ import { FC } from 'react';
 import Head from 'next/head';
 import Sidebar from '@/components/Sidebar';
 // import Login from '@/components/Login';
+import AppDrawer from '@/components/AppDrawer';
 import Dashboard from './dashboard';
-import scss from '../styles/Home.module.scss';
+import scss from './Home.module.scss';
 
 const Home: FC = () => {
   return (
@@ -16,8 +17,9 @@ const Home: FC = () => {
       </Head>
       
       <main className={scss.main}>
-        <Sidebar />
-        <Dashboard />
+        <AppDrawer />
+        {/* <Sidebar /> */}
+        {/* <Dashboard /> */}
         {/* <Login /> */}
       </main>
     </>
