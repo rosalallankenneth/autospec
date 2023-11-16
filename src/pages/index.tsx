@@ -1,9 +1,11 @@
-import { FC } from "react";
 import Head from "next/head";
 import scss from "./Home.module.scss";
 import AppDrawer from "@/components/AppDrawer";
+import { ThemeToggleButtonProps } from "../components/ThemeToggleButton/ThemeToggleButton";
 
-const Home: FC = () => {
+const Home = (props: ThemeToggleButtonProps) => {
+	const { ColorModeContext } = props;
+
 	return (
 		<>
 			<Head>
@@ -23,7 +25,7 @@ const Home: FC = () => {
 			</Head>
 
 			<main className={scss.main}>
-				<AppDrawer />
+				<AppDrawer ColorModeContext={ColorModeContext} />
 			</main>
 		</>
 	);

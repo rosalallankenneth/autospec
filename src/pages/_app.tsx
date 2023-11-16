@@ -30,7 +30,10 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
 			<ThemeProvider theme={theme}>
 				<SessionProvider session={session}>
 					<CssBaseline />
-					<Component {...pageProps} />
+					<Component
+						{...pageProps}
+						ColorModeContext={ColorModeContext}
+					/>
 				</SessionProvider>
 			</ThemeProvider>
 		</ColorModeContext.Provider>
