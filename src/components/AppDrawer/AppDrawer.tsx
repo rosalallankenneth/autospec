@@ -154,27 +154,27 @@ const AppDrawer = (props: any) => {
 
 	const menuList = [
 		{
-			route: "dashboard",
+			route: "/dashboard",
 			label: "Dashboard",
 			icon: <DashboardIcon />,
 		},
 		{
-			route: "inspections",
+			route: "/inspections",
 			label: "Inspections",
 			icon: <CarRepairIcon />,
 		},
 		{
-			route: "schedules",
+			route: "/schedules",
 			label: "Schedules",
 			icon: <CalendarMonthIcon />,
 		},
 		{
-			route: "transactions",
+			route: "/transactions",
 			label: "Transactions",
 			icon: <HistoryIcon />,
 		},
 		{
-			route: "settings",
+			route: "/settings",
 			label: "Settings",
 			icon: <SettingsIcon />,
 		},
@@ -294,7 +294,7 @@ const AppDrawer = (props: any) => {
 				<List>
 					{menuList.map((menu) => (
 						<ListItem key={menu.route} disablePadding sx={{ display: "block" }}>
-							<NextLink className={scss.menuLink} href="/dashboard">
+							<NextLink className={scss.menuLink} href={menu.route}>
 								<ListItemButton
 									sx={{
 										minHeight: 48,
