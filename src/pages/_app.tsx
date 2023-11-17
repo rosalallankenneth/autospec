@@ -6,10 +6,18 @@ import darkTheme from "@/theme/darkTheme";
 import lightTheme from "@/theme/lightTheme";
 
 import type { AppProps } from "next/app";
+import { Page } from "@/types/Pages";
 
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+export const ColorModeContext = React.createContext({
+	toggleColorMode: () => {},
+});
 
-const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
+type Props = AppProps & {
+	Component: Page;
+};
+
+const App = ({ Component, pageProps: { session, ...pageProps } }: Props) => {
+	const getLayout = Component.getLayout ?? ((page) => page);
 	const [mode, setMode] = React.useState<"light" | "dark">("dark");
 	const colorMode = React.useMemo(
 		() => ({
@@ -30,10 +38,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
 			<ThemeProvider theme={theme}>
 				<SessionProvider session={session}>
 					<CssBaseline />
-					<Component
-						{...pageProps}
-						ColorModeContext={ColorModeContext}
-					/>
+					{getLayout(<Component {...pageProps} />)}
 				</SessionProvider>
 			</ThemeProvider>
 		</ColorModeContext.Provider>
