@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -28,10 +28,11 @@ import Tooltip from "@mui/material/Tooltip";
 import { useMediaQuery } from "@mui/material";
 
 import { useSession, signIn, signOut } from "next-auth/react";
+import NextLink from "next/link";
 
+import scss from "./AppDrawer.module.scss";
 import ThemeToggleButton from "../ThemeToggleButton";
-import { ThemeToggleButtonProps } from "../ThemeToggleButton/ThemeToggleButton";
-import Dashboard from "../../pages/dashboard";
+import { ColorModeContext } from "../../pages/_app";
 
 const drawerWidth = 240;
 
@@ -104,11 +105,10 @@ const Drawer = styled(MuiDrawer, {
 	}),
 }));
 
-const AppDrawer = (props: ThemeToggleButtonProps) => {
-	const { ColorModeContext } = props;
+const AppDrawer = (props: any) => {
 	const theme = useTheme();
 	const mobileCheck = useMediaQuery("(min-width: 900px)");
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = React.useState(true);
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
 		null
 	);
@@ -117,6 +117,14 @@ const AppDrawer = (props: ThemeToggleButtonProps) => {
 	const { data: session } = useSession();
 	const userAvatar = session?.user?.image as string;
 	const userFullName = session?.user?.name as string;
+
+	useEffect(() => {
+		if (mobileCheck) {
+			setOpen(true);
+		} else {
+			setOpen(false);
+		}
+	}, [mobileCheck]);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -146,27 +154,27 @@ const AppDrawer = (props: ThemeToggleButtonProps) => {
 
 	const menuList = [
 		{
-			route: "dashboard",
+			route: "/dashboard",
 			label: "Dashboard",
 			icon: <DashboardIcon />,
 		},
 		{
-			route: "inspections",
+			route: "/inspections",
 			label: "Inspections",
 			icon: <CarRepairIcon />,
 		},
 		{
-			route: "schedules",
+			route: "/schedules",
 			label: "Schedules",
 			icon: <CalendarMonthIcon />,
 		},
 		{
-			route: "transactions",
+			route: "/transactions",
 			label: "Transactions",
 			icon: <HistoryIcon />,
 		},
 		{
-			route: "settings",
+			route: "/settings",
 			label: "Settings",
 			icon: <SettingsIcon />,
 		},
@@ -175,10 +183,7 @@ const AppDrawer = (props: ThemeToggleButtonProps) => {
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
-			<AppBar
-				position="fixed"
-				open={open}
-			>
+			<AppBar position="fixed" open={open}>
 				<Toolbar>
 					{mobileCheck && (
 						<IconButton
@@ -196,20 +201,14 @@ const AppDrawer = (props: ThemeToggleButtonProps) => {
 					)}
 
 					<Typography
+						className={scss.brandLogo}
 						color="inherit"
 						variant="h5"
 						noWrap
 						component="a"
 						href="#app-bar-with-responsive-menu"
 						sx={{
-							mr: 2,
 							display: !open ? "flex" : { xs: "flex", md: "none" },
-							flexGrow: 1,
-							fontFamily: "monospace",
-							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: "inherit",
-							textDecoration: "none",
 						}}
 					>
 						Autospec
@@ -227,14 +226,8 @@ const AppDrawer = (props: ThemeToggleButtonProps) => {
 						<ThemeToggleButton ColorModeContext={ColorModeContext} />
 
 						<Tooltip title="Profile settings">
-							<IconButton
-								onClick={handleOpenUserMenu}
-								sx={{ p: 0 }}
-							>
-								<Avatar
-									alt={userFullName}
-									src={userAvatar}
-								/>
+							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+								<Avatar alt={userFullName} src={userAvatar} />
 							</IconButton>
 						</Tooltip>
 
@@ -273,28 +266,18 @@ const AppDrawer = (props: ThemeToggleButtonProps) => {
 					</Box>
 				</Toolbar>
 			</AppBar>
-			<Drawer
-				variant="permanent"
-				open={open}
-			>
+			<Drawer variant="permanent" open={open}>
 				<DrawerHeader sx={{ display: "flex" }}>
 					<Typography
+						className={scss.brandLogo}
 						color="inherit"
 						variant="h5"
 						noWrap
 						component="a"
 						href="#app-bar-with-responsive-menu"
 						sx={{
-							mr: 2,
 							display: open ? "flex" : { xs: "none", md: "flex" },
-							flexGrow: 1,
-							fontFamily: "monospace",
-							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: "inherit",
-							backgroundColor: "inherit",
-							textDecoration: "none",
-							justifyContent: "end",
+							justifyContent: "center",
 						}}
 					>
 						Autospec
@@ -310,42 +293,40 @@ const AppDrawer = (props: ThemeToggleButtonProps) => {
 				<Divider />
 				<List>
 					{menuList.map((menu) => (
-						<ListItem
-							key={menu.route}
-							disablePadding
-							sx={{ display: "block" }}
-						>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open ? "initial" : "center",
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
+						<ListItem key={menu.route} disablePadding sx={{ display: "block" }}>
+							<NextLink className={scss.menuLink} href={menu.route}>
+								<ListItemButton
 									sx={{
-										minWidth: 0,
-										mr: open ? 3 : "auto",
-										justifyContent: "center",
+										minHeight: 48,
+										justifyContent: open ? "initial" : "center",
+										px: 2.5,
 									}}
 								>
-									{menu.icon}
-								</ListItemIcon>
-								<ListItemText
-									primary={menu.label}
-									sx={{ opacity: open ? 1 : 0 }}
-								/>
-							</ListItemButton>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open ? 3 : "auto",
+											justifyContent: "center",
+										}}
+									>
+										{menu.icon}
+									</ListItemIcon>
+									<ListItemText
+										primary={menu.label}
+										sx={{
+											color: theme.palette.text.primary,
+											opacity: open ? 1 : 0,
+										}}
+									/>
+								</ListItemButton>
+							</NextLink>
 						</ListItem>
 					))}
 				</List>
 			</Drawer>
-			<Box
-				component="main"
-				sx={{ flexGrow: 1, p: 3 }}
-			>
+			<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 				<DrawerHeader />
-				<Dashboard />
+				{props.children}
 			</Box>
 		</Box>
 	);
