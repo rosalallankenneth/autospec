@@ -154,7 +154,7 @@ const AppDrawer = (props: any) => {
 
 	const menuList = [
 		{
-			route: "/dashboard",
+			route: "/",
 			label: "Dashboard",
 			icon: <DashboardIcon />,
 		},
